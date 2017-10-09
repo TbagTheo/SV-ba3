@@ -54,7 +54,7 @@ void Neuron::clearSpikes()
         spike_times.clear();
 }
 
-void Neuron::update_v(double intensity,double resistance,double a, double b)
+void Neuron::update_v(double intensity,double a, double b)
 {
         set_vMemb(a*get_vMemb()+intensity*b);
 }
