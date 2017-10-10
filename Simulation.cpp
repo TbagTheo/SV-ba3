@@ -2,17 +2,26 @@
 #include "Simulation.hpp"
 #include <cmath>
 Simulation::Simulation()
-        : v_thr(200),t_start(0.0),v_reset(0),tau(200),r(200),step(1), refrac_period(20)
+        : v_thr(200),t_start(0.0),v_reset(0),tau(200),r(200),step(1), refrac_period(20), n_neurons(2)
 {
         first_=(exp(-refrac_period/tau));
         second_=(r*(1-first_));
+        for (size_t i = 0; i < n_neurons; i++) {
+          addNeuron();
+        }
+        /*  for (size_t 0; i<2; i++)
+           {
+            neurons_.push_back()
+           }*/
 }
+
 
 void Simulation::initiate_stop()
 {
         std::cout<<"Enter t_stop"<<std::endl;
         std::cin>>t_stop;
 }
+
 
 void Simulation::initiate_intensity()
 {
@@ -42,9 +51,14 @@ double Simulation::get_b()
         return b;
 }
 
+void Simulation::addNeuron()
+{
+        Neuron* newNeuron;
+        neurons_.push_back(newNeuron);
+}
+
 void Simulation::initiate_variables()
 {
-  std::cout << "Test 007" << '\n';
         initiate_stop();
         initiate_intensity();
         do {
@@ -54,7 +68,6 @@ void Simulation::initiate_variables()
                         std::cout << "Try again" << '\n';
                 }
         } while(get_a()>get_b());
-
 }
 
 void Simulation::run()

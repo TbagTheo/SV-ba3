@@ -31,6 +31,10 @@ void write_data();
  double get_a();
  double get_b();
 
+ double get_neuronsSize();
+
+ void addNeuron();
+
  void initiate_variables();
 private:
 double v_thr;
@@ -48,7 +52,7 @@ double second_;
 double a;
 double b;
 double n_neurons;
-std::vector <Neuron> neurons_;
+std::vector <Neuron*> neurons_;
 Neuron neur;
 
 };
