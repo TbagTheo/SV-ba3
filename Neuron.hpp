@@ -43,7 +43,7 @@ void increment_spikesNum();
  * @brief counts the number of spikes that ocurred
  */
 
-void update_v(double intensity,double resistance,double a, double b);
+void update_v(double intensity,double a, double b);
 /*!
  * @brief updates the vMemb of the neuron
  *

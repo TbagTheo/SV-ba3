@@ -3,7 +3,8 @@
 #include <cmath>
 Neuron::Neuron ()
         : vMemb(0),spikesNum(0.0)
-{}
+{
+}
 
 
 double Neuron::get_vMemb()
@@ -40,7 +41,7 @@ double Neuron::get_time(double i)
 bool Neuron::is_refracting(double t)
 {
         if (spike_times.empty()) {return false; }
-        else if ((t-spike_times.back())>20) {return false;}
+        else if ((t-spike_times.back())>20) {return false; }
         else {return true; }
 }
 

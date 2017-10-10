@@ -2,6 +2,7 @@
 #define SIMULATION_H
 #include "Neuron.hpp"
 #include <fstream>
+#include <vector>
 
 class Simulation
 {
@@ -30,23 +31,26 @@ void write_data();
  double get_a();
  double get_b();
 
- double initiate_variables();
+ void initiate_variables();
 private:
 double v_thr;
 double t_start;
 double t_stop;
 double v_reset;
 double tau;
+double r;
+double step;
 double refrac_period;
 double intensity;
-double r;
 double sim_time;
-double step;
 double first_;
 double second_;
 double a;
 double b;
+double n_neurons;
+std::vector <Neuron> neurons_;
 Neuron neur;
+
 };
 
 #endif

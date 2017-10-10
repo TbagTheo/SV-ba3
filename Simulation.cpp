@@ -42,8 +42,9 @@ double Simulation::get_b()
         return b;
 }
 
-double Simulation::initiate_variables()
+void Simulation::initiate_variables()
 {
+  std::cout << "Test 007" << '\n';
         initiate_stop();
         initiate_intensity();
         do {
@@ -58,6 +59,7 @@ double Simulation::initiate_variables()
 
 void Simulation::run()
 {
+
         neur.clearSpikes();
         sim_time=t_start;
         while(sim_time<t_stop)
@@ -69,7 +71,7 @@ void Simulation::run()
 
                 else if (sim_time>get_a() and sim_time<get_b())
                 {
-                        neur.update_v(intensity,r,first_,second_);
+                        neur.update_v(intensity,first_,second_);
                 }
                 if (neur.get_vMemb()>=v_thr)
                 {
