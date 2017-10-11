@@ -10,6 +10,7 @@ int main()
 
 								Simulation sim;
 								sim.initiate_variables();
+								std::cout << sim.get_neuronsSize() << '\n';
 								sim.run();
 								sim.write_data();
 

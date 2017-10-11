@@ -53,9 +53,7 @@ double a;
 double b;
 double n_neurons;
 double j;
-std::vector <Neuron*> neurons_;
-Neuron neur1;
-Neuron neur2;
+std::vector <Neuron> neurons_;
 };
 
 #endif

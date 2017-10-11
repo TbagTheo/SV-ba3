@@ -51,9 +51,14 @@ double Simulation::get_b()
         return b;
 }
 
+double Simulation::get_neuronsSize()
+{
+  return neurons_.size();
+}
+
 void Simulation::addNeuron()
 {
-        Neuron* newNeuron;
+        Neuron newNeuron;
         neurons_.push_back(newNeuron);
 }
 
@@ -72,40 +77,29 @@ void Simulation::initiate_variables()
 
 void Simulation::run()
 {
-
-        neur1.clearSpikes();
+        neurons_[1].clearSpikes();
         sim_time=t_start;
         while(sim_time<t_stop)
         {
-                if (neur1.is_refracting(sim_time))
+                if (neurons_[1].is_refracting(sim_time))
                 {
-                        neur1.set_vMemb(v_reset);
+                        neurons_[1].set_vMemb(v_reset);
                 }
 
                 else if (sim_time>get_a() and sim_time<get_b())
                 {
-                        neur1.update_v(intensity,first_,second_);
+                        neurons_[1].update_v(intensity,first_,second_);
                 }
-                if (neur1.get_vMemb()>=v_thr)
+                if (neurons_[1].get_vMemb()>=v_thr)
                 {
-                        neur1.set_vMemb(v_reset);
-                        neur1.set_time(sim_time);
-                        neur2.set_vMemb(j);
+                        neurons_[1].set_vMemb(v_reset);
+                        neurons_[1].set_time(sim_time);
+                        neurons_[2].set_vMemb(j);
                 }
-                if (neur2.is_refracting(sim_time))
-                {
-                  neur2.set_vMemb(v_reset);
-                }
-                else if (sim_time>get_a() and sim_time<get_b()) {
-                  neur2.update_v(0,first_,second_);
-                }
-                 if ()
-                {
-                  neur2.set_vMemb(v_reset);
-                  neur2.set_time(sim_time);
-                }
+
+
                 sim_time+=step;
-                std::cout << neur1.get_vMemb() << '\n';
+                std::cout << neurons_[1].get_vMemb() << '\n';
         }
 
 }
@@ -116,9 +110,9 @@ void Simulation::write_data()
         timeSpikes.open("time_data.txt");
 
         timeSpikes << "Time where spikes occurred in ms.\n";
-        for (size_t i = 0; i < neur1.get_spikesSize(); i++) {
+        for (size_t i = 0; i < neurons_[1].get_spikesSize(); i++) {
 
-                timeSpikes << neur1.get_time(i)<<"ms\n";
+                timeSpikes << neurons_[1].get_time(i)<<"ms\n";
         }
         timeSpikes.close();
 
