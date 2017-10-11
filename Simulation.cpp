@@ -92,6 +92,18 @@ void Simulation::run()
                         neur1.set_time(sim_time);
                         neur2.set_vMemb(j);
                 }
+                if (neur2.is_refracting(sim_time))
+                {
+                  neur2.set_vMemb(v_reset);
+                }
+                else if (sim_time>get_a() and sim_time<get_b()) {
+                  neur2.update_v(0,first_,second_);
+                }
+                 if ()
+                {
+                  neur2.set_vMemb(v_reset);
+                  neur2.set_time(sim_time);
+                }
                 sim_time+=step;
                 std::cout << neur1.get_vMemb() << '\n';
         }
