@@ -36,6 +36,7 @@ void write_data();
  void addNeuron();
 
  void initiate_variables();
+ void print_data();
 private:
 double v_thr;
 double t_start;

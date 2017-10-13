@@ -27,9 +27,20 @@ void Neuron::set_vMemb(double a)
         vMemb=a;
 }
 
+void Neuron::add_v(double j)
+{
+  vMemb+=j;
+}
+
 void Neuron::set_time(double t)
 {
         spike_times.push_back(t);
+}
+
+bool Neuron::is_spiking(double thr)
+{
+  if (vMemb>=thr) {return true;}
+  else return false;
 }
 
 double Neuron::get_time(double i)

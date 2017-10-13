@@ -2,12 +2,12 @@
 #include "Simulation.hpp"
 #include <cmath>
 Simulation::Simulation()
-        : v_thr(200),t_start(0.0),v_reset(0),tau(200),r(200),step(1), refrac_period(20), n_neurons(2),j(3)
+        : v_thr(200),t_start(0.0),v_reset(0),tau(200),r(200),step(1), refrac_period(20), n_neurons(2),j(10)
 {
         first_=(exp(-refrac_period/tau));
         second_=(r*(1-first_));
         for (size_t i = 0; i < n_neurons; i++) {
-          addNeuron();
+                addNeuron();
         }
         /*  for (size_t 0; i<2; i++)
            {
@@ -53,7 +53,7 @@ double Simulation::get_b()
 
 double Simulation::get_neuronsSize()
 {
-  return neurons_.size();
+        return neurons_.size();
 }
 
 void Simulation::addNeuron()
@@ -61,6 +61,17 @@ void Simulation::addNeuron()
         Neuron newNeuron;
         neurons_.push_back(newNeuron);
 }
+
+void Simulation::print_data()
+{
+        std::cout << "Neuron " <<1<<" potential:";
+        std::cout << neurons_[1].get_vMemb();
+        std::cout << " at " <<sim_time<<"ms";
+        std::cout << "  ||  " <<"Neuron "<<2<<" potential:";
+        std::cout << neurons_[2].get_vMemb();
+        std::cout << " at " <<sim_time<<"ms"<<std::endl;
+}
+
 
 void Simulation::initiate_variables()
 {
@@ -77,7 +88,10 @@ void Simulation::initiate_variables()
 
 void Simulation::run()
 {
-        neurons_[1].clearSpikes();
+        for (size_t i = 0; i < n_neurons; i++) {
+                neurons_[i].clearSpikes();
+        }
+        //  neurons_[1].clearSpikes();
         sim_time=t_start;
         while(sim_time<t_stop)
         {
@@ -86,20 +100,37 @@ void Simulation::run()
                         neurons_[1].set_vMemb(v_reset);
                 }
 
-                else if (sim_time>get_a() and sim_time<get_b())
+                if (sim_time>get_a() and sim_time<get_b())
                 {
-                        neurons_[1].update_v(intensity,first_,second_);
+                        if(!neurons_[1].is_refracting(sim_time))
+                        {
+                                neurons_[1].update_v(intensity,first_,second_);
+                        }
+                        neurons_[2].update_v(0,first_,second_);
                 }
-                if (neurons_[1].get_vMemb()>=v_thr)
+
+                if (neurons_[1].is_spiking(v_thr))
                 {
+                        neurons_[2].add_v(j);
+                }
+                for (size_t i = 0; i < n_neurons; i++) {
+                        if (neurons_[i].is_spiking(v_thr)) {
+                                neurons_[i].set_vMemb(v_reset);
+                                neurons_[i].set_time(sim_time);
+                        }
+                }
+
+
+
+                /*if (neurons_[1].get_vMemb()>=v_thr)
+                   {
                         neurons_[1].set_vMemb(v_reset);
                         neurons_[1].set_time(sim_time);
-                        neurons_[2].set_vMemb(j);
-                }
-
+                        neurons_[2].set_vMemb(neurons_[2].get_vMemb()+j);
+                   } */
 
                 sim_time+=step;
-                std::cout << neurons_[1].get_vMemb() << '\n';
+                print_data();
         }
 
 }

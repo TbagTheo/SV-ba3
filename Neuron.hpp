@@ -31,12 +31,17 @@ void set_vMemb(double a);
  * @brief sets a value for the membrane potential
  * @param  a new membrane potential value
  */
+
+void add_v(double j);
+
 void set_time(double t);
 /*!
  * @brief sets a new time value in the spike_times vector
  *
  * @param  a time
  */
+
+bool is_spiking(double thr);
 
 void increment_spikesNum();
 /*!
@@ -59,6 +64,7 @@ bool is_refracting(double t);
 
 private:
 double vMemb; //membrane potential
+//bool is_spiking;
 double spikesNum; //number of spikes that occurred
 std::vector<double> spike_times; //vector of times where a spike ocurred
 };
