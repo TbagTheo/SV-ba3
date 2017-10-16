@@ -20,7 +20,7 @@ void run();
 /*!
  * @brief runs the simulation
  */
-void write_data();
+void write_spikes();
 /*!
  * @brief writes the time where spikes occurred in a file
  */
@@ -54,6 +54,9 @@ double a;
 double b;
 double n_neurons;
 double j;
+double buffer_wIndex;
+double buffer_rIndex;
+double delay;
 std::vector <Neuron> neurons_;
 };
 

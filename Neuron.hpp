@@ -54,7 +54,11 @@ void update_v(double intensity,double a, double b);
  *
  * @param  the intensity of the signal, the resistance, 2 constants
  */
+void writeToBuffer(double i, double x);
 
+double readFromBuffer(double i);
+
+void reset_bufferIndex(double i);
 
 void clearSpikes();
 /*!
@@ -67,6 +71,7 @@ double vMemb; //membrane potential
 //bool is_spiking;
 double spikesNum; //number of spikes that occurred
 std::vector<double> spike_times; //vector of times where a spike ocurred
+std::vector<double> ring_buffer;
 };
 
 #endif
