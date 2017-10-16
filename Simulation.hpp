@@ -32,11 +32,21 @@ void write_spikes();
  double get_b();
 
  double get_neuronsSize();
-
+ /*!
+  * @ Returns the size of the Neuron vector
+  */
  void addNeuron();
-
+ /*!
+  * @ Adds a Neuron to the Neuron vector
+  */
  void initiate_variables();
+ /*!
+  * @initiates the variables
+  */
  void print_data();
+ /*!
+  * @brief Displays the membrane potential and the time
+  */
 private:
 double v_thr;
 double t_start;

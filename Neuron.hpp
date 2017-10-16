@@ -1,5 +1,6 @@
 #ifndef NEURON_H
 #define NEURON_H
+#include <iostream>
 #include <vector>
 
 class Neuron
@@ -66,12 +67,16 @@ void clearSpikes();
  */
 bool is_refracting(double t);
 
+
+
 private:
 double vMemb; //membrane potential
 //bool is_spiking;
 double spikesNum; //number of spikes that occurred
 std::vector<double> spike_times; //vector of times where a spike ocurred
 std::vector<double> ring_buffer;
+
+
 };
 
 #endif

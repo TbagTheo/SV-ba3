@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Neuron.hpp"
 #include <cmath>
 Neuron::Neuron ()
@@ -85,3 +86,9 @@ void Neuron::reset_bufferIndex(double i)
 {
   ring_buffer[i]=0;
 }
+
+/*void Neuron::output_vMemb(double i)
+{
+  v_data.open("V_Membrane"+std::to_string(i)+".txt");
+  v_data << vMemb<<" ";
+}*/
