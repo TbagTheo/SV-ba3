@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Neuron.hpp"
 #include "Simulation.hpp"
+
 #include <cmath>
 
 using namespace std;

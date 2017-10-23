@@ -46,7 +46,7 @@ bool Neuron::is_spiking(double thr)
 
 double Neuron::get_time(double i)
 {
-        return spike_times[i];
+        return spike_times[i]/10;
 }
 
 
