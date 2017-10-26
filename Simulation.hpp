@@ -35,6 +35,11 @@ void write_spikes();
  /*!
   * @ Returns the size of the Neuron vector
   */
+
+  void initiate_connections();
+  /*!
+   * @ Initiates the connections between the neurons
+   */
  void addNeuron();
  /*!
   * @ Adds a Neuron to the Neuron vector
@@ -47,19 +52,25 @@ void write_spikes();
  /*!
   * @brief Displays the membrane potential and the time
   */
+
+double getNeuronsSpikesNumber(double i);
+
+double getNeuron_V(double i);
+
+std::vector <Neuron> neurons_;
+
 private:
 double v_thr;
 double t_start;
 double t_stop;
 double v_reset;
-double tau;
-double r;
+//double tau;
+//double r;
 double step;
-double refrac_period;
+//double refrac_period;
 double intensity;
 double sim_time;
-double first_;
-double second_;
+//double first_ , second_; //! constants for the potential formula
 double a;
 double b;
 double n_neurons;
@@ -67,7 +78,11 @@ double j;
 double buffer_wIndex;
 double buffer_rIndex;
 double delay;
-std::vector <Neuron> neurons_;
+double Ce;
+double Ci;
+double Ne, Ni;
+
+std::vector<std::vector<unsigned int> > connections_;
 };
 
 #endif

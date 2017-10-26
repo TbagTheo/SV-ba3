@@ -49,7 +49,7 @@ void increment_spikesNum();
  * @brief counts the number of spikes that ocurred
  */
 
-void update_v(double intensity,double a, double b);
+void update_v(double intensity);
 /*!
  * @brief updates the vMemb of the neuron
  *
@@ -73,6 +73,10 @@ private:
 double vMemb; //membrane potential
 //bool is_spiking;
 double spikesNum; //number of spikes that occurred
+double first_, second_;
+double refrac_period;
+double tau;
+double r;
 std::vector<double> spike_times; //vector of times where a spike ocurred
 std::vector<double> ring_buffer;
 

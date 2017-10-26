@@ -3,8 +3,10 @@
 #include "Neuron.hpp"
 #include <cmath>
 Neuron::Neuron ()
-        : vMemb(0),spikesNum(0.0),ring_buffer(15,0.0)
+        : vMemb(0),spikesNum(0.0),ring_buffer(15,0.0), tau(200), r(200), refrac_period(20)
 {
+  first_=(exp(-refrac_period/tau));
+  second_=(r*(1-first_));
 }
 
 
@@ -53,7 +55,7 @@ double Neuron::get_time(double i)
 bool Neuron::is_refracting(double t)
 {
         if (spike_times.empty()) {return false; }
-        else if ((t-spike_times.back())>20) {return false; }
+        else if ((t-spike_times.back())>refrac_period) {return false; }
         else {return true; }
 }
 
@@ -67,9 +69,9 @@ void Neuron::clearSpikes()
         spike_times.clear();
 }
 
-void Neuron::update_v(double intensity,double a, double b)
+void Neuron::update_v(double intensity)
 {
-        set_vMemb(a*get_vMemb()+intensity*b);
+        set_vMemb(first_*get_vMemb()+intensity*second_);
 }
 
 void Neuron::writeToBuffer(double i, double x)

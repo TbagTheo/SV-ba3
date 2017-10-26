@@ -12,7 +12,8 @@ int main()
 								Simulation sim;
 								sim.initiate_variables();
 								sim.run();
-								sim.write_spikes();
+								//sim.write_spikes();
+								cout<<sim.getNeuronsSpikesNumber(0)<<endl;
 
 								return 0;
 }
