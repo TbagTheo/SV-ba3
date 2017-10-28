@@ -42,7 +42,7 @@ void set_time(double t);
  * @param  a time
  */
 
-bool is_spiking(double thr);
+bool is_spiking();
 
 void increment_spikesNum();
 /*!
@@ -72,6 +72,7 @@ bool is_refracting(double t);
 private:
 double vMemb; //membrane potential
 //bool is_spiking;
+double v_thr;
 double spikesNum; //number of spikes that occurred
 double first_, second_;
 double refrac_period;

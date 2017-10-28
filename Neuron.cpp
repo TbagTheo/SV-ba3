@@ -3,7 +3,7 @@
 #include "Neuron.hpp"
 #include <cmath>
 Neuron::Neuron ()
-        : vMemb(0),spikesNum(0.0),ring_buffer(15,0.0), tau(200), r(200), refrac_period(20)
+        : vMemb(0), v_thr(200),spikesNum(0.0),refrac_period(20), tau(200), r(200),ring_buffer(15,0.0)
 {
   first_=(exp(-refrac_period/tau));
   second_=(r*(1-first_));
@@ -40,9 +40,9 @@ void Neuron::set_time(double t)
         spike_times.push_back(t);
 }
 
-bool Neuron::is_spiking(double thr)
+bool Neuron::is_spiking()
 {
-        if (vMemb>=thr) {return true; }
+        if (vMemb>=v_thr) {return true; }
         else return false;
 }
 
@@ -55,7 +55,7 @@ double Neuron::get_time(double i)
 bool Neuron::is_refracting(double t)
 {
         if (spike_times.empty()) {return false; }
-        else if ((t-spike_times.back())>refrac_period) {return false; }
+        else if ((t-spike_times.back())>=refrac_period) {return false; }
         else {return true; }
 }
 

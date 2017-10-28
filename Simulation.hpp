@@ -24,12 +24,12 @@ void write_spikes();
 /*!
  * @brief writes the time where spikes occurred in a file
  */
- void ask_a();
+ void ask_sim_start();
 
- void ask_b();
+ void ask_sim_stop();
 
- double get_a();
- double get_b();
+ double get_sim_start();
+ double get_sim_stop();
 
  double get_neuronsSize();
  /*!
@@ -48,6 +48,10 @@ void write_spikes();
  /*!
   * @initiates the variables
   */
+
+void initiate_default(double stop, double a, double b, double i);
+
+
  void print_data();
  /*!
   * @brief Displays the membrane potential and the time
@@ -57,7 +61,9 @@ double getNeuronsSpikesNumber(double i);
 
 double getNeuron_V(double i);
 
-std::vector <Neuron> neurons_;
+bool isNeuronSpiking(double i);
+
+
 
 private:
 double v_thr;
@@ -71,8 +77,8 @@ double step;
 double intensity;
 double sim_time;
 //double first_ , second_; //! constants for the potential formula
-double a;
-double b;
+double sim_start;
+double sim_stop;
 double n_neurons;
 double j;
 double buffer_wIndex;
@@ -82,7 +88,8 @@ double Ce;
 double Ci;
 double Ne, Ni;
 
-std::vector<std::vector<unsigned int> > connections_;
+std::vector<std::vector<unsigned int> > connection_map;
+std::vector <Neuron*> neurons_;
 };
 
 #endif
