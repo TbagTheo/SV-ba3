@@ -59,9 +59,9 @@ double getNeuron_V(double i);
 
 bool isNeuronSpiking(double i);
 
-void initiate_map();
+void initiate_targets();
 
-double random(int min, int max);
+int random(int min, int max);
 
 void testConnection_map();
 
@@ -90,9 +90,11 @@ double Ce;
 double Ci;
 double Ne, Ni;
 
-std::vector<std::vector<int> > connection_map;
+int testNeuron;
+
+//std::vector<std::vector<int> > connection_map;
 std::vector <Neuron*> neurons_;
-std::vector<int> connection_temp;
+
 };
 
 #endif

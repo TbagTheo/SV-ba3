@@ -89,6 +89,21 @@ void Neuron::reset_bufferIndex(double i)
   ring_buffer[i]=0;
 }
 
+void Neuron::set_target(int i)
+{
+  targets_.push_back(i);
+}
+
+int Neuron::get_target(int i)
+{
+  return targets_[i];
+}
+
+size_t Neuron::getTargetSize()
+{
+  return targets_.size();
+}
+
 /*void Neuron::output_vMemb(double i)
 {
   v_data.open("V_Membrane"+std::to_string(i)+".txt");

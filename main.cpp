@@ -14,7 +14,7 @@ int main()
 								//sim.initiate_default(10000,0,10000,1.01);
 								//sim.run();
 								//sim.write_spikes();
-								sim.initiate_map();
+								sim.initiate_targets();
 								sim.testConnection_map();
 
 								return 0;

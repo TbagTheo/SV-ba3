@@ -67,6 +67,12 @@ void clearSpikes();
  */
 bool is_refracting(double t);
 
+void set_target(int i);
+
+int get_target(int i);
+
+size_t getTargetSize();
+
 
 
 private:
@@ -80,6 +86,7 @@ double tau;
 double r;
 std::vector<double> spike_times; //vector of times where a spike ocurred
 std::vector<double> ring_buffer;
+std::vector<int> targets_;
 
 
 };

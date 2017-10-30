@@ -6,10 +6,10 @@
 #include <cstdlib>
 #include <cassert>
 Simulation::Simulation()
-        : t_start(0.0),v_reset(0) /*,tau(200),r(200)*/,step(1), /*refrac_period(20),*/ n_neurons(Ne+Ni),j(5),delay(15),
-        Ne(10000),Ni(2500),Ce(1000),Ci(250),connection_temp(Ce+Ci,0)
+        : t_start(0.0),v_reset(0) /*,tau(200),r(200)*/,step(1), /*refrac_period(20),*/ j(5),delay(15),
+        Ne(10000),Ni(2500),n_neurons(12500),Ce(1000),Ci(250)
 {
-        connection_map.resize(n_neurons);
+
         //first_=(exp(-refrac_period/tau));
         //second_=(r*(1-first_));
         for (size_t i = 0; i < n_neurons; i++) {
@@ -21,11 +21,11 @@ Simulation::Simulation()
            }*/
 }
 
-double Simulation::random(int min, int max)
+int Simulation::random(int min, int max)
 {
         static std::random_device rd;
         static std::mt19937 gen(rd());
-        static std::uniform_int_distribution<> dis(min, max);
+        static std::uniform_real_distribution<> dis(min, max);
 
         return dis(gen);
 }
@@ -125,27 +125,23 @@ void Simulation::initiate_default(double stop, double a, double b, double i)
         sim_stop=b;
 }
 
-void Simulation::initiate_map()
+
+void Simulation::initiate_targets()
 {
-        for (size_t i = 0; i < n_neurons; i++) {
-          std::cout << i << '\n';
-                for (size_t j = 0; j < Ce; j++) {
-                  assert(j<connection_temp.size());
-                        connection_temp[j]=random(0,Ne);
+ for (size_t i = 0; i < n_neurons; i++) {
+   for (size_t j = 0; j < Ce; j++) {
+     int exit_neuron(random(0,Ne-1));
+     neurons_[exit_neuron]->set_target(i);
+   }
 
-
-                }
-                for (size_t a = Ce; a < Ce+Ci; a++) {
-                  assert(a<connection_temp.size());
-                        connection_temp[a]=random(1,3);
-
-
-                }
-                std::cout << "test-" << '\n';
-                //connection_map[i]=connection_temp;
-                std::cout << "test+" << '\n';
-        }
+   for (size_t k = 0; k < Ci; k++) {
+     int inib_neuron(random(Ne,n_neurons));
+     neurons_[inib_neuron]->set_target(i);
+   }
+   std::cout << i << '\n';
+ }
 }
+
 
 /*void Simulation::initiate_connections()
    {
@@ -158,10 +154,8 @@ void Simulation::initiate_map()
 
 void Simulation::testConnection_map()
 {
-        for (size_t i = 0; i < n_neurons; i++) {
-                for (size_t j = 0; j < Ce+Ci; j++) {
-                        std::cout << connection_map[i][j] << '\n';
-                }
+        for (size_t i = 0; i < neurons_[8765]->getTargetSize(); i++) {
+                std::cout << neurons_[8756]->get_target(i) <<" || " <<i <<'\n';
         }
 }
 
