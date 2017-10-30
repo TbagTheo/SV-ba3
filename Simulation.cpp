@@ -2,11 +2,14 @@
 #include "Simulation.hpp"
 #include <cmath>
 #include <iomanip>
+#include <random>
+#include <cstdlib>
+#include <cassert>
 Simulation::Simulation()
-        : t_start(0.0),v_reset(0)/*,tau(200),r(200)*/,step(1), /*refrac_period(20),*/ n_neurons(2),
-        j(5),delay(15)
-        //Ne(10000),Ni(2500),connections_(n_neurons, std::vector<unsigned int> (n_neurons))
+        : t_start(0.0),v_reset(0) /*,tau(200),r(200)*/,step(1), /*refrac_period(20),*/ n_neurons(Ne+Ni),j(5),delay(15),
+        Ne(10000),Ni(2500),Ce(1000),Ci(250),connection_temp(Ce+Ci,0)
 {
+        connection_map.resize(n_neurons);
         //first_=(exp(-refrac_period/tau));
         //second_=(r*(1-first_));
         for (size_t i = 0; i < n_neurons; i++) {
@@ -18,6 +21,14 @@ Simulation::Simulation()
            }*/
 }
 
+double Simulation::random(int min, int max)
+{
+        static std::random_device rd;
+        static std::mt19937 gen(rd());
+        static std::uniform_int_distribution<> dis(min, max);
+
+        return dis(gen);
+}
 
 void Simulation::initiate_stop()
 {
@@ -67,19 +78,19 @@ void Simulation::addNeuron()
 
 double Simulation::getNeuronsSpikesNumber(double i)
 {
-  return neurons_[i]->get_spikesSize();
+        return neurons_[i]->get_spikesSize();
 }
 
 bool Simulation::isNeuronSpiking(double i)
 {
-  return neurons_[i]->is_spiking();
+        return neurons_[i]->is_spiking();
 }
 
 
 
 double Simulation::getNeuron_V(double i)
 {
-  return neurons_[i]->get_vMemb();
+        return neurons_[i]->get_vMemb();
 }
 
 void Simulation::print_data()
@@ -108,20 +119,51 @@ void Simulation::initiate_variables()
 
 void Simulation::initiate_default(double stop, double a, double b, double i)
 {
-  t_stop=stop;
-  intensity=i;
-  sim_start=a;
-  sim_stop=b;
+        t_stop=stop;
+        intensity=i;
+        sim_start=a;
+        sim_stop=b;
+}
+
+void Simulation::initiate_map()
+{
+        for (size_t i = 0; i < n_neurons; i++) {
+          std::cout << i << '\n';
+                for (size_t j = 0; j < Ce; j++) {
+                  assert(j<connection_temp.size());
+                        connection_temp[j]=random(0,Ne);
+
+
+                }
+                for (size_t a = Ce; a < Ce+Ci; a++) {
+                  assert(a<connection_temp.size());
+                        connection_temp[a]=random(1,3);
+
+
+                }
+                std::cout << "test-" << '\n';
+                //connection_map[i]=connection_temp;
+                std::cout << "test+" << '\n';
+        }
 }
 
 /*void Simulation::initiate_connections()
-{
-  for (size_t i = 0; i < ; i++) {
+   {
+   for (size_t i = 0; i < ; i++) {
     for (size_t n = 0; n < connections_[i].size(); n++) {
 
     }
-  }
-}*/
+   }
+   }*/
+
+void Simulation::testConnection_map()
+{
+        for (size_t i = 0; i < n_neurons; i++) {
+                for (size_t j = 0; j < Ce+Ci; j++) {
+                        std::cout << connection_map[i][j] << '\n';
+                }
+        }
+}
 
 void Simulation::run()
 {
@@ -176,8 +218,11 @@ void Simulation::run()
 
 
                 sim_time+=step;
-              print_data();
+                //  print_data();
+
         }
+
+
 }
 
 void Simulation::write_spikes()

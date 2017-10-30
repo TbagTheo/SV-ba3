@@ -36,10 +36,6 @@ void write_spikes();
   * @ Returns the size of the Neuron vector
   */
 
-  void initiate_connections();
-  /*!
-   * @ Initiates the connections between the neurons
-   */
  void addNeuron();
  /*!
   * @ Adds a Neuron to the Neuron vector
@@ -62,6 +58,12 @@ double getNeuronsSpikesNumber(double i);
 double getNeuron_V(double i);
 
 bool isNeuronSpiking(double i);
+
+void initiate_map();
+
+double random(int min, int max);
+
+void testConnection_map();
 
 
 
@@ -88,8 +90,9 @@ double Ce;
 double Ci;
 double Ne, Ni;
 
-std::vector<std::vector<unsigned int> > connection_map;
+std::vector<std::vector<int> > connection_map;
 std::vector <Neuron*> neurons_;
+std::vector<int> connection_temp;
 };
 
 #endif
