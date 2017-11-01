@@ -11,11 +11,14 @@ int main()
 
 								Simulation sim;
 								//sim.initiate_variables();
-								//sim.initiate_default(10000,0,10000,1.01);
-								//sim.run();
+
+
 								//sim.write_spikes();
+								sim.initiate_default(1000,0);
 								sim.initiate_targets();
-								sim.testConnection_map();
+								std::cout << "targets initiated" << '\n';
+								sim.run();
+								std::cout << "program finished" << '\n';
 
 								return 0;
 }

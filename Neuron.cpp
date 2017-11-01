@@ -2,8 +2,9 @@
 #include <fstream>
 #include "Neuron.hpp"
 #include <cmath>
+#include <random>
 Neuron::Neuron ()
-        : vMemb(0), v_thr(200),spikesNum(0.0),refrac_period(20), tau(200), r(200),ring_buffer(15,0.0)
+        : vMemb(0), v_thr(20),spikesNum(0.0),refrac_period(20), tau(200), r(20),ring_buffer(15,0.0)
 {
   first_=(exp(-refrac_period/tau));
   second_=(r*(1-first_));
@@ -69,9 +70,17 @@ void Neuron::clearSpikes()
         spike_times.clear();
 }
 
+double Neuron::random_noise()
+{
+  static std::random_device rd;
+  static std::mt19937 gen ( rd());
+  static std::poisson_distribution <> Poisson(2);
+  return Poisson(gen);
+}
+
 void Neuron::update_v(double intensity)
 {
-        set_vMemb(first_*get_vMemb()+intensity*second_);
+        set_vMemb(first_*get_vMemb()+intensity*second_+random_noise());
 }
 
 void Neuron::writeToBuffer(double i, double x)

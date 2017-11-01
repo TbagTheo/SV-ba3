@@ -6,8 +6,8 @@
 #include <cstdlib>
 #include <cassert>
 Simulation::Simulation()
-        : t_start(0.0),v_reset(0) /*,tau(200),r(200)*/,step(1), /*refrac_period(20),*/ j(5),delay(15),
-        Ne(10000),Ni(2500),n_neurons(12500),Ce(1000),Ci(250)
+        : t_start(0.0),v_reset(0) /*,tau(200),r(200)*/,step(1), /*refrac_period(20),*/ j(0.1),delay(15),
+        Ne(1000),Ni(250),n_neurons(1250),Ce(100),Ci(25)
 {
 
         //first_=(exp(-refrac_period/tau));
@@ -117,29 +117,26 @@ void Simulation::initiate_variables()
         } while(get_sim_start()>get_sim_stop());
 }
 
-void Simulation::initiate_default(double stop, double a, double b, double i)
+void Simulation::initiate_default(double stop, double i)
 {
         t_stop=stop;
         intensity=i;
-        sim_start=a;
-        sim_stop=b;
 }
 
 
 void Simulation::initiate_targets()
 {
- for (size_t i = 0; i < n_neurons; i++) {
-   for (size_t j = 0; j < Ce; j++) {
-     int exit_neuron(random(0,Ne-1));
-     neurons_[exit_neuron]->set_target(i);
-   }
+        for (size_t i = 0; i < n_neurons; i++) {
+                for (size_t j = 0; j < Ce; j++) {
+                        int exit_neuron(random(0,Ne-1));
+                        neurons_[exit_neuron]->set_target(i);
+                }
 
-   for (size_t k = 0; k < Ci; k++) {
-     int inib_neuron(random(Ne,n_neurons));
-     neurons_[inib_neuron]->set_target(i);
-   }
-   std::cout << i << '\n';
- }
+                for (size_t k = 0; k < Ci; k++) {
+                        int inib_neuron(random(Ne,n_neurons));
+                        neurons_[inib_neuron]->set_target(i);
+                }
+        }
 }
 
 
@@ -159,78 +156,112 @@ void Simulation::testConnection_map()
         }
 }
 
+int Simulation::to_target(double i, double j)
+{
+        return neurons_[i]->get_target(j);
+}
+
 void Simulation::run()
 {
-        /*for (size_t i = 0; i < n_neurons; i++) {
-                neurons_[i].clearSpikes();
-           }*/
-        //  neurons_[1].clearSpikes();
-        std::ofstream data_output;
+         double progress(0.0);
+         double barwidth(70);
+        std::ofstream file;
+        file.open("Neuron_data.txt");
+
         sim_time=t_start;
         while(sim_time<t_stop)
         {
+                 int pos(barwidth*progress);
+                //int count(0);
                 buffer_wIndex=fmod((sim_time+delay), delay);
                 buffer_rIndex=fmod(sim_time+1,delay);
 
-                if (neurons_[0]->is_spiking())
-                {
-                        //std::cout << "spike" <<sim_time<< '\n';
-                        neurons_[1]->writeToBuffer(buffer_wIndex,j);
+                for (size_t i = 0; i < Ne; i++) {         // For exitatory neurons
+                        if (neurons_[i]->is_spiking()) {
+                                for (size_t j = 0; j < neurons_[i]->getTargetSize(); j++) {
+
+                                        neurons_[to_target(i,j)]->writeToBuffer(buffer_wIndex,j);
+
+                                }
+                        }
                 }
 
-                for (size_t i = 0; i < n_neurons; i++) {
-                        //  neurons_[i].output_vMemb(i);
+                for (size_t i = Ne; i < n_neurons; i++) { //inibitory neurons
                         if (neurons_[i]->is_spiking()) {
+                                for (size_t j = 0; j < neurons_[i]->getTargetSize(); j++) {
+
+                                        neurons_[to_target(i,j)]->writeToBuffer(buffer_wIndex,-5*j);
+
+
+                                }
+                        }
+                }
+                for (size_t i = 0; i < n_neurons; i++) { //resets v_memb if neuron is spiking
+
+                        if (neurons_[i]->is_spiking()) {
+                                //count++;
+
                                 neurons_[i]->set_vMemb(v_reset);
                                 neurons_[i]->set_time(sim_time);
+                                file <<sim_time/10<<" "<<i<<std::endl;
+
                         }
-                }
 
-
-                if (neurons_[0]->is_refracting(sim_time))
-                {
-                        neurons_[0]->set_vMemb(v_reset);
-                }
-
-
-                if (sim_time>get_sim_start() and sim_time<get_sim_stop())
-                {
-                        if(!neurons_[0]->is_refracting(sim_time))
+                        if (neurons_[i]->is_refracting(sim_time)) //if the neuron is refracting
                         {
+                                neurons_[i]->set_vMemb(v_reset);
 
-                                neurons_[0]->update_v(intensity);
                         }
-                        if(!neurons_[1]->is_refracting(sim_time))
-                        {
-                                neurons_[1]->update_v(0);
-                                neurons_[1]->add_v(neurons_[1]->readFromBuffer(buffer_rIndex));
-                                //std::cout << neurons_[1].readFromBuffer(buffer_rIndex) << '\n';
-                                neurons_[1]->reset_bufferIndex(buffer_rIndex);
+
+                        else if (!neurons_[i]->is_refracting(sim_time)) { //if the neuron is not refracting
+                                neurons_[i]->update_v(intensity);
+                                neurons_[i]->add_v(neurons_[i]->readFromBuffer(buffer_rIndex));
+
+
                         }
+
+                        neurons_[i]->reset_bufferIndex(buffer_rIndex);
+
                 }
 
+                std::cout << "[";
+                   for (size_t a = 0; a < barwidth; a++) {
+                          if (a<pos)
+                                  std::cout << "#";
+                          else if (a==pos)
+                                  std::cout << "#";
+                          else std::cout << "-";
+                   }
+                   progress+=1.0/t_stop;
+                   std::cout << "]" <<progress*100<<"%\r";
+                   std::cout.flush();
 
 
                 sim_time+=step;
+
+//std::cout << count <<" Neurons have spiked at "<<sim_time/10<<"ms"<< '\n';
+
+
+
                 //  print_data();
 
         }
-
-
+        std::cout << std::endl;
+file.close();
 }
 
-void Simulation::write_spikes()
+/*void Simulation::write_data()
 {
-        std::ofstream timeSpikes;
 
-        for (size_t b = 0; b < n_neurons; b++) {
-                timeSpikes.open("time_spikes.txt");
 
-                timeSpikes << "Time where spikes occurred in ms.\n";
+
+                file.open("Neuron_data.txt");
+
+                filee <<
                 for (size_t i = 0; i < neurons_[b]->get_spikesSize(); i++) {
 
                         timeSpikes << neurons_[b]->get_time(i)<<"ms\n";
                 }
                 timeSpikes.close();
         }
-}
+}*/

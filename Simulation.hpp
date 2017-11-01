@@ -20,15 +20,22 @@ void run();
 /*!
  * @brief runs the simulation
  */
-void write_spikes();
+void write_data();
 /*!
  * @brief writes the time where spikes occurred in a file
  */
  void ask_sim_start();
+ /*!
+  * @brief asks the user when should Iext be sent
+  */
 
  void ask_sim_stop();
+ /*!
+  * @brief asks the user when should the Iext stop
+  */
 
  double get_sim_start();
+
  double get_sim_stop();
 
  double get_neuronsSize();
@@ -45,7 +52,7 @@ void write_spikes();
   * @initiates the variables
   */
 
-void initiate_default(double stop, double a, double b, double i);
+void initiate_default(double stop, double i);
 
 
  void print_data();
@@ -54,46 +61,70 @@ void initiate_default(double stop, double a, double b, double i);
   */
 
 double getNeuronsSpikesNumber(double i);
+/*!
+ * @brief gets the number of spikes a specific neuron has had
+ * @param the position of the neuron in neurons_
+ */
 
 double getNeuron_V(double i);
+/*!
+ * @brief returns the potential of the targeted neuron
+ * @param the position of the neuron in neurons_
+ */
 
 bool isNeuronSpiking(double i);
+/*!
+ * @brief returns true if the neuron has a potential superior to V threshold
+ * @param the position of the neuron in neurons_
+ */
 
 void initiate_targets();
+/*!
+ * @brief randomizes the output connection of each neuron in neurons_
+ */
 
 int random(int min, int max);
+/*!
+ * @brief returns a number betwwen min and max following the uniform distribution
+ */
 
 void testConnection_map();
+
+int to_target(double i,double j);
+/*!
+ * @brief returns the index in neurons_ of the neuron targeted by neuron #i
+ * @param j=index of target in neuron #i
+ */
 
 
 
 private:
-double v_thr;
-double t_start;
-double t_stop;
-double v_reset;
+double v_thr; //threshold potential
+double t_start; //start of the simulation
+double t_stop; //end time of the simulation
+double v_reset; //value of the potial when it's reset
 //double tau;
 //double r;
-double step;
+double step; //time represented by one iteration
 //double refrac_period;
-double intensity;
-double sim_time;
+double intensity; //intensity sent to a neuron
+double sim_time;  //current time of the simulation
 //double first_ , second_; //! constants for the potential formula
-double sim_start;
-double sim_stop;
-double n_neurons;
-double j;
-double buffer_wIndex;
-double buffer_rIndex;
-double delay;
-double Ce;
-double Ci;
-double Ne, Ni;
+double sim_start; //time of the start of the simulation
+double sim_stop;  //time of the stop of a simulation
+double n_neurons; //number of neurons
+double j; //potential sent by a spiking neuron
+double buffer_wIndex; //index of the buffer to write to
+double buffer_rIndex; //index of the buffer to read from
+double delay; //delay between neurons
+double Ce;  //number of exitatory connections
+double Ci; //number of inhibitory connections
+double Ne, Ni; // number of exitatory and inhibitory neurons
 
 int testNeuron;
 
 //std::vector<std::vector<int> > connection_map;
-std::vector <Neuron*> neurons_;
+std::vector <Neuron*> neurons_; //vector of neurons in the simulation
 
 };
 

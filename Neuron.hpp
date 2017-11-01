@@ -43,6 +43,10 @@ void set_time(double t);
  */
 
 bool is_spiking();
+/*!
+ * @brief returns true is the neuron is spiking
+ */
+
 
 void increment_spikesNum();
 /*!
@@ -56,6 +60,11 @@ void update_v(double intensity);
  * @param  the intensity of the signal, the resistance, 2 constants
  */
 void writeToBuffer(double i, double x);
+/*!
+ * @brief writes to the buffer of the neuron
+ *
+ * @param  
+ */
 
 double readFromBuffer(double i);
 
@@ -72,6 +81,8 @@ void set_target(int i);
 int get_target(int i);
 
 size_t getTargetSize();
+
+double random_noise();
 
 
 
