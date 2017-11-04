@@ -63,7 +63,7 @@ void writeToBuffer(double i, double x);
 /*!
  * @brief writes to the buffer of the neuron
  *
- * @param  
+ * @param
  */
 
 double readFromBuffer(double i);
@@ -84,6 +84,8 @@ size_t getTargetSize();
 
 double random_noise();
 
+//=========================TESTS==========================
+void update_test(double intensity);
 
 
 private:
@@ -95,6 +97,7 @@ double first_, second_;
 double refrac_period;
 double tau;
 double r;
+
 std::vector<double> spike_times; //vector of times where a spike ocurred
 std::vector<double> ring_buffer;
 std::vector<int> targets_;

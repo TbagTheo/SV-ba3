@@ -4,9 +4,9 @@
 #include <cmath>
 #include <random>
 Neuron::Neuron ()
-        : vMemb(0), v_thr(20),spikesNum(0.0),refrac_period(20), tau(200), r(20),ring_buffer(15,0.0)
+        : vMemb(0), v_thr(20),spikesNum(0.0),refrac_period(20), tau(20), r(20),ring_buffer(15,0.0)
 {
-  first_=(exp(-refrac_period/tau));
+  first_=(exp(-0.1/tau));
   second_=(r*(1-first_));
 }
 
@@ -80,7 +80,7 @@ double Neuron::random_noise()
 
 void Neuron::update_v(double intensity)
 {
-        set_vMemb(first_*get_vMemb()+intensity*second_+random_noise());
+        set_vMemb(first_*get_vMemb()+intensity*second_+random_noise()*0.1);
 }
 
 void Neuron::writeToBuffer(double i, double x)
@@ -112,6 +112,19 @@ size_t Neuron::getTargetSize()
 {
   return targets_.size();
 }
+
+//======================TESTS===============
+
+
+
+void Neuron::update_test(double intensity)
+{
+  set_vMemb(first_*get_vMemb()+intensity*second_);
+}
+
+
+
+
 
 /*void Neuron::output_vMemb(double i)
 {

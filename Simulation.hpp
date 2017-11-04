@@ -83,10 +83,12 @@ void initiate_targets();
  * @brief randomizes the output connection of each neuron in neurons_
  */
 
-int random(int min, int max);
+int random_e(int min, int max);
 /*!
  * @brief returns a number betwwen min and max following the uniform distribution
  */
+
+ int random_i(int min, int max);
 
 void testConnection_map();
 
@@ -95,6 +97,8 @@ int to_target(double i,double j);
  * @brief returns the index in neurons_ of the neuron targeted by neuron #i
  * @param j=index of target in neuron #i
  */
+
+ void update_neurons(double time, std::ofstream file);
 
 
 
