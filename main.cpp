@@ -16,8 +16,5 @@ int main()
 								sim.run();
 								std::cout << "program finished" << '\n';
 
-
-
-
 								return 0;
 }

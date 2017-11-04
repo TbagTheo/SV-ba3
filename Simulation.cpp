@@ -7,7 +7,7 @@
 #include <cassert>
 Simulation::Simulation()
         : t_start(0.0),v_reset(0) /*,tau(200),r(200)*/,step(1), /*refrac_period(20),*/ j(0.1),delay(15),
-        Ne(1000),Ni(250),n_neurons(1250),Ce(100),Ci(25)
+        Ne(10000),Ni(2500),n_neurons(12500),Ce(1000),Ci(250)
 {
         for (size_t i = 0; i < n_neurons; i++) {
                 addNeuron();
@@ -128,7 +128,13 @@ void Simulation::initiate_default(double stop, double i)
 
 void Simulation::initiate_targets()
 {
+  double progress(0.0);
+  double barwidth(70);
+
+  std::cout << "Building connections" << '\n';
+
         for (size_t i = 0; i < n_neurons; i++) {
+          int pos(barwidth*progress);
                 for (size_t a = 0; a < Ce; a++) {
                   if (i>Ne) {
                   }
@@ -142,7 +148,21 @@ void Simulation::initiate_targets()
                         int inib_neuron(random_i(Ne,n_neurons));
                         neurons_[inib_neuron]->set_target(i);
                 }
+                std::cout << "[";
+                    for (size_t a = 0; a < barwidth; a++) {
+                           if (a<pos)
+                                   std::cout << "#";
+                           else if (a==pos)
+                                   std::cout << "#";
+                           else std::cout << "-";
+                    }
+                    progress+=1.0/n_neurons;
+                    std::cout << "]" <<progress*100<<"%\r";
+                    std::cout.flush();
         }
+        std::cout << '\n';
+        std::cout << n_neurons <<" Neurons are each connected to "<<Ce<<" exitatory neurons and "<<
+        Ci<<" inhibitory neurons"<< '\n';
 }
 
 
@@ -153,15 +173,17 @@ int Simulation::to_target(double i, double j)
 
 void Simulation::run()
 {
+  std::cout << "running the Simulation" << '\n';
         std::ofstream file;
         file.open("Neuron_data.txt");
 
-      //  double progress(0.0);
-      //  double barwidth(70);
+
+        double progress(0.0);
+        double barwidth(70);
 
         sim_time=t_start;
         while (sim_time<t_stop) {
-                //int pos(barwidth*progress);
+                int pos(barwidth*progress);
                 buffer_wIndex=fmod((sim_time+delay), delay);
                 buffer_rIndex=fmod(sim_time+1,delay);
 
@@ -171,7 +193,7 @@ void Simulation::run()
                         if (!neurons_[i]->is_refracting(sim_time)) {
                                 neurons_[i]->update_v(intensity);
                                 neurons_[i]->add_v(neurons_[i]->readFromBuffer(buffer_rIndex));
-                                std::cout << neurons_[i]->readFromBuffer(buffer_rIndex) << '\n';
+
 
                                 if (neurons_[i]->is_spiking()) {
 
@@ -193,9 +215,8 @@ void Simulation::run()
 
                         neurons_[i]->reset_bufferIndex(buffer_rIndex);
 
-
                 }
-              /* std::cout << "[";
+               std::cout << "[";
                    for (size_t a = 0; a < barwidth; a++) {
                           if (a<pos)
                                   std::cout << "#";
@@ -205,10 +226,10 @@ void Simulation::run()
                    }
                    progress+=1.0/t_stop;
                    std::cout << "]" <<progress*100<<"%\r";
-                   std::cout.flush();*/
+                   std::cout.flush();
 
                 sim_time+=step;
-                //std::cout << neurons_[12]->get_vMemb() << '\n';
+              //  std::cout << neurons_[12]->get_vMemb() << '\n';
 
 
         }

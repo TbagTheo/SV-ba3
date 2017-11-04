@@ -85,7 +85,7 @@ size_t getTargetSize();
 double random_noise();
 
 //=========================TESTS==========================
-void update_test(double intensity);
+void update_test(double intensity,double time);
 
 
 private:

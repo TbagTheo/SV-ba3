@@ -117,9 +117,16 @@ size_t Neuron::getTargetSize()
 
 
 
-void Neuron::update_test(double intensity)
+void Neuron::update_test(double intensity,double t)
 {
-  set_vMemb(first_*get_vMemb()+intensity*second_);
+  if ( is_spiking()) {
+       set_vMemb(0.0);
+       set_time(t);
+  }
+  else if(is_refracting(t)) set_vMemb(0.0);
+
+  else set_vMemb(first_*get_vMemb()+intensity*second_);
+
 }
 
 
