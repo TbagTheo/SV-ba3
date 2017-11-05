@@ -5,6 +5,10 @@
 #include <random>
 #include <cstdlib>
 #include <cassert>
+
+//-----------------------------------------------------------------------
+// CONSTRUCTOR
+//----
 Simulation::Simulation()
         : t_start(0.0),v_reset(0),step(1),n_neurons(12500),j(0.1),delay(15),
         Ce(1000),Ci(250),Ne(10000),Ni(2500),g(3)
@@ -13,6 +17,43 @@ Simulation::Simulation()
                 addNeuron();
         }
 }
+//-----------------------------------------------------------------------
+
+//-----------------------------------------------------------------------
+// GETTERS
+//-----------------------------------------------------------------------
+
+double Simulation::get_neuronsSize()
+{
+        return neurons_.size();
+}
+//-----------------------------------------------------------------------
+double Simulation::getNeuronsSpikesNumber(double i)
+{
+        return neurons_[i]->get_spikesSize();
+}
+//-----------------------------------------------------------------------
+double Simulation::getNeuron_V(double i)
+{
+        return neurons_[i]->get_vMemb();
+}
+//-----------------------------------------------------------------------
+double Simulation::get_Ne()
+{
+        return Ne;
+}
+//-----------------------------------------------------------------------
+double Simulation::getN_neurons()
+{
+        return n_neurons;
+}
+
+
+
+//-----------------------------------------------------------------------
+// RANDOM FUNCTIONS
+//-----------------------------------------------------------------------
+
 
 int Simulation::random_e()
 {
@@ -31,102 +72,12 @@ int Simulation::random_i()
 
         return dis(gen);
 }
+//-----------------------------------------------------------------------
 
-void Simulation::initiate_stop()
-{
-        std::cout<<"Enter t_stop"<<std::endl;
-        std::cin>>t_stop;
-}
-
-
-void Simulation::initiate_intensity()
-{
-        std::cout<<"Enter intensity"<<std::endl;
-        std::cin>>intensity;
-}
-
-void Simulation::ask_sim_start()
-{
-        std::cout<<"Enter a"<<std::endl;
-        std::cin>>sim_start;
-}
-
-void Simulation::ask_sim_stop()
-{
-        std::cout<<"Enter b"<<std::endl;
-        std::cin >> sim_stop;
-}
-
-double Simulation::get_sim_start()
-{
-        return sim_start;
-}
-
-double Simulation::get_sim_stop()
-{
-        return sim_stop;
-}
-
-double Simulation::get_neuronsSize()
-{
-        return neurons_.size();
-}
-
-double Simulation::get_Ne()
-{
-  return Ne;
-}
-
-double Simulation::getN_neurons()
-{
-  return n_neurons;
-}
-
-void Simulation::addNeuron()
-{
-        Neuron* newNeuron(new Neuron);
-        neurons_.push_back(newNeuron);
-}
-
-double Simulation::getNeuronsSpikesNumber(double i)
-{
-        return neurons_[i]->get_spikesSize();
-}
-
-bool Simulation::isNeuronSpiking(double i)
-{
-        return neurons_[i]->is_spiking();
-}
-
-
-
-double Simulation::getNeuron_V(double i)
-{
-        return neurons_[i]->get_vMemb();
-}
-
-/*void Simulation::print_data()
-{
-        std::cout << "Neuron " <<1<<" potential:";
-        std::cout << neurons_[0]->get_vMemb()/10;
-        std::cout << " at " <<sim_time/10<<"ms";
-        std::cout <<std::setw(30)<<"Neuron "<<2<<" potential:";
-        std::cout << neurons_[1]->get_vMemb()/10;
-        std::cout << " at " <<sim_time/10<<"ms"<<std::endl;
-}*/
-
-
-void Simulation::initiate_variables()
+void Simulation::initiate_attributes()
 {
         initiate_stop();
         initiate_intensity();
-        do {
-                ask_sim_start();
-                ask_sim_stop();
-                if (get_sim_start()>get_sim_stop()) {
-                        std::cout << "Try again" << '\n';
-                }
-        } while(get_sim_start()>get_sim_stop());
 }
 
 void Simulation::initiate_default(double stop, double i)
@@ -135,6 +86,12 @@ void Simulation::initiate_default(double stop, double i)
         intensity=i;
 }
 
+
+
+bool Simulation::isNeuronSpiking(double i)
+{
+        return neurons_[i]->is_spiking();
+}
 
 void Simulation::initiate_targets()
 {
@@ -174,12 +131,6 @@ void Simulation::initiate_targets()
         std::cout << '\n';
         std::cout << n_neurons <<" Neurons are each connected to "<<Ce<<" exitatory neurons and "<<
         Ci<<" inhibitory neurons"<< '\n';
-}
-
-
-int Simulation::to_target(double i, double j)
-{
-        return neurons_[i]->get_target(j);
 }
 
 void Simulation::run()
@@ -240,10 +191,30 @@ void Simulation::run()
                 std::cout.flush();
 
                 sim_time+=step;
-                //  std::cout << neurons_[12]->get_vMemb() << '\n';
-
-
         }
         std::cout << '\n';
         file.close();
+}
+
+int Simulation::to_target(double i, double j)
+{
+        return neurons_[i]->get_target(j);
+}
+
+void Simulation::addNeuron()
+{
+        Neuron* newNeuron(new Neuron);
+        neurons_.push_back(newNeuron);
+}
+
+void Simulation::initiate_stop()
+{
+        std::cout<<"Enter t_stop"<<std::endl;
+        std::cin>>t_stop;
+}
+
+void Simulation::initiate_intensity()
+{
+        std::cout<<"Enter intensity"<<std::endl;
+        std::cin>>intensity;
 }

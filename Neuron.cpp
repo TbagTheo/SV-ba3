@@ -3,13 +3,21 @@
 #include "Neuron.hpp"
 #include <cmath>
 #include <random>
+
+//-----------------------------------------------------------------------
+// CONSTRUCTOR
+//----
 Neuron::Neuron ()
+
         : vMemb(0), v_thr(20),spikesNum(0.0),refrac_period(20), tau(20), r(20),ring_buffer(15,0.0), nun(2)
 {
   first_=(exp(-0.1/tau));
   second_=(r*(1-first_));
 }
 
+//-----------------------------------------------------------------------
+// GETTERS
+//-----------------------------------------------------------------------
 
 double Neuron::get_vMemb()
 {
@@ -20,6 +28,13 @@ double Neuron::get_spikesNum()
 {
         return spikesNum;
 }
+
+double Neuron::get_time(double i)
+{
+        return spike_times[i]/10;
+}
+
+//-----------------------------------------------------------------------
 
 void Neuron::increment_spikesNum()
 {
@@ -47,10 +62,6 @@ bool Neuron::is_spiking()
         else return false;
 }
 
-double Neuron::get_time(double i)
-{
-        return spike_times[i]/10;
-}
 
 
 bool Neuron::is_refracting(double t)
@@ -126,7 +137,7 @@ for (size_t i = 0; i < test_time; i++) {
 }
 
 
-bool Neuron::run_test(double intensity,double t) {
+void Neuron::run_test(double intensity,double t) {
 
   if (!is_refracting(t)) {
     set_vMemb(first_*get_vMemb()+intensity*second_);
@@ -136,10 +147,3 @@ bool Neuron::run_test(double intensity,double t) {
     set_time(t);
   }
 }
-
-
-/*void Neuron::output_vMemb(double i)
-{
-  v_data.open("V_Membrane"+std::to_string(i)+".txt");
-  v_data << vMemb<<" ";
-}*/
