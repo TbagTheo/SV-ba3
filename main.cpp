@@ -77,6 +77,8 @@ int main()
 																								sim.initiate_default(2000,0);
 																								sim.set_g(4.5);
 																								sim.set_nun(0.9);
+																								sim.initiate_targets();
+																								sim.run();
 																}
 								}
 
