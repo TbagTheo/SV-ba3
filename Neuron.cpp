@@ -9,7 +9,7 @@
 //----
 Neuron::Neuron ()
 
-        : vMemb(0), v_thr(20),spikesNum(0.0),refrac_period(20), tau(20), r(20),ring_buffer(15,0.0), nun(2)
+        : vMemb(0), v_thr(20),spikesNum(0.0),refrac_period(20), tau(20), r(20),ring_buffer(15,0.0)
 {
   first_=(exp(-0.1/tau));
   second_=(r*(1-first_));
@@ -81,7 +81,7 @@ void Neuron::clearSpikes()
         spike_times.clear();
 }
 
-double Neuron::random_noise()
+double Neuron::random_noise(double nun)
 {
   static std::random_device rd;
   static std::mt19937 gen ( rd());
@@ -89,9 +89,9 @@ double Neuron::random_noise()
   return Poisson(gen);
 }
 
-void Neuron::update_v(double intensity)
+void Neuron::update_v(double intensity,double nun)
 {
-        set_vMemb(first_*get_vMemb()+intensity*second_+random_noise()*0.1);
+        set_vMemb(first_*get_vMemb()+intensity*second_+random_noise(nun)*0.1);
 }
 
 void Neuron::writeToBuffer(double i, double x)

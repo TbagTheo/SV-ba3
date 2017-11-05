@@ -11,13 +11,12 @@
 //----
 Simulation::Simulation()
         : t_start(0.0),v_reset(0),step(1),n_neurons(12500),j(0.1),delay(15),
-        Ce(1000),Ci(250),Ne(10000),Ni(2500),g(3)
+        Ce(1000),Ci(250),Ne(10000),Ni(2500),g(3),nun(2)
 {
         for (size_t i = 0; i < n_neurons; i++) {
                 addNeuron();
         }
 }
-//-----------------------------------------------------------------------
 
 //-----------------------------------------------------------------------
 // GETTERS
@@ -77,7 +76,8 @@ int Simulation::random_i()
 void Simulation::initiate_attributes()
 {
         initiate_stop();
-        initiate_intensity();
+        initiate_Iweight();
+        //  initiate_intensity();
 }
 
 void Simulation::initiate_default(double stop, double i)
@@ -129,6 +129,7 @@ void Simulation::initiate_targets()
                 std::cout.flush();
         }
         std::cout << '\n';
+        std::cout << "targets initiated" << '\n';
         std::cout << n_neurons <<" Neurons are each connected to "<<Ce<<" exitatory neurons and "<<
         Ci<<" inhibitory neurons"<< '\n';
 }
@@ -153,7 +154,7 @@ void Simulation::run()
 
                 for (size_t i = 0; i < n_neurons; i++) {
                         if (!neurons_[i]->is_refracting(sim_time)) {
-                                neurons_[i]->update_v(intensity);
+                                neurons_[i]->update_v(intensity,nun);
                                 neurons_[i]->add_v(neurons_[i]->readFromBuffer(buffer_rIndex));
 
 
@@ -161,7 +162,11 @@ void Simulation::run()
 
                                         neurons_[i]->set_vMemb(v_reset);
                                         neurons_[i]->set_time(sim_time);
-                                        file <<sim_time<<" "<<i<<std::endl;
+
+                                        if (sim_time>200) {
+                                                file <<sim_time<<" "<<i<<std::endl;
+                                        }
+
 
                                         for (size_t a = 0; a < neurons_[i]->getTargetSize(); a++) {
                                                 int target(to_target(i,a));
@@ -194,6 +199,7 @@ void Simulation::run()
         }
         std::cout << '\n';
         file.close();
+        std::cout << "program finished" << '\n';
 }
 
 int Simulation::to_target(double i, double j)
@@ -217,4 +223,21 @@ void Simulation::initiate_intensity()
 {
         std::cout<<"Enter intensity"<<std::endl;
         std::cin>>intensity;
+}
+
+void Simulation::initiate_Iweight()
+{
+        std::cout << "Please enter the weight of the inhibitory neurons" << '\n';
+        double w;
+        std::cin >> w;
+        set_g(w);
+}
+
+void Simulation::set_g(double weight)
+{
+        g=weight;
+}
+
+void Simulation::set_nun(double ratio) {
+        nun=ratio;
 }
