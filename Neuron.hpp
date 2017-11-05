@@ -157,7 +157,7 @@ double first_, second_;           // 2 constants used in the equation for the me
 double refrac_period;             // time during which the neuron will be refracting
 double tau;
 double r;                         // Resistance
-                       // nun = nuExt/nuThr
+// nun = nuExt/nuThr
 std::vector<double> spike_times;  //vector of times where a spike ocurred
 std::vector<double> ring_buffer;  // ring buffer which emulates a delay between neurons
 std::vector<int> targets_;        // List of indexes for neurons connected to this instance

@@ -18,10 +18,10 @@ int main()
 								std::cout << "2: Enter your own run Time and inhibitory weight" << '\n';
 								std::cout << "3: Reproduce one of Brunnels figures" << '\n';
 
-									std::cin >> choice;
-									while (choice<1 || choice>3) {
-										std::cin >> choice;
-									}
+								std::cin >> choice;
+								while (choice<1 || choice>3) {
+																std::cin >> choice;
+								}
 
 
 								system("clear");
@@ -47,7 +47,7 @@ int main()
 																std::cout << "4." << '\n';
 																std::cin >> figure;
 																while (figure<1 || figure>4) {
-																	std::cin >> figure;
+																								std::cin >> figure;
 																}
 																system("clear");
 
