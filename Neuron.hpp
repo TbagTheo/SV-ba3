@@ -85,7 +85,9 @@ size_t getTargetSize();
 double random_noise();
 
 //=========================TESTS==========================
-void update_test(double intensity,double time);
+void update_test(double intensity, int test_time);
+
+bool run_test(double intensity, double t);
 
 
 private:
@@ -97,7 +99,7 @@ double first_, second_;
 double refrac_period;
 double tau;
 double r;
-
+double nun; //nuExt/nuThr
 std::vector<double> spike_times; //vector of times where a spike ocurred
 std::vector<double> ring_buffer;
 std::vector<int> targets_;

@@ -72,6 +72,9 @@ double getNeuron_V(double i);
  * @param the position of the neuron in neurons_
  */
 
+double get_Ne();
+double getN_neurons();
+
 bool isNeuronSpiking(double i);
 /*!
  * @brief returns true if the neuron has a potential superior to V threshold
@@ -83,12 +86,12 @@ void initiate_targets();
  * @brief randomizes the output connection of each neuron in neurons_
  */
 
-int random_e(int min, int max);
+int random_e();
 /*!
  * @brief returns a number betwwen min and max following the uniform distribution
  */
 
- int random_i(int min, int max);
+ int random_i();
 
 void testConnection_map();
 
@@ -118,12 +121,14 @@ double sim_start; //time of the start of the simulation
 double sim_stop;  //time of the stop of a simulation
 double n_neurons; //number of neurons
 double j; //potential sent by a spiking neuron
-double buffer_wIndex; //index of the buffer to write to
-double buffer_rIndex; //index of the buffer to read from
+
 double delay; //delay between neurons
 double Ce;  //number of exitatory connections
 double Ci; //number of inhibitory connections
 double Ne, Ni; // number of exitatory and inhibitory neurons
+double g; //weight of inhibitory neurons
+double buffer_wIndex; //index of the buffer to write to
+double buffer_rIndex; //index of the buffer to read from
 
 int testNeuron;
 

@@ -10,7 +10,7 @@ int main()
 {
 
 								Simulation sim;
-								sim.initiate_default(10000,0);
+								sim.initiate_default(1500,0);
 								sim.initiate_targets();
 								std::cout << "targets initiated" << '\n';
 								sim.run();

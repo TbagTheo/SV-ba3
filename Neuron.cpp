@@ -4,7 +4,7 @@
 #include <cmath>
 #include <random>
 Neuron::Neuron ()
-        : vMemb(0), v_thr(20),spikesNum(0.0),refrac_period(20), tau(20), r(20),ring_buffer(15,0.0)
+        : vMemb(0), v_thr(20),spikesNum(0.0),refrac_period(20), tau(20), r(20),ring_buffer(15,0.0), nun(2)
 {
   first_=(exp(-0.1/tau));
   second_=(r*(1-first_));
@@ -74,7 +74,7 @@ double Neuron::random_noise()
 {
   static std::random_device rd;
   static std::mt19937 gen ( rd());
-  static std::poisson_distribution <> Poisson(2);
+  static std::poisson_distribution <> Poisson(nun);
   return Poisson(gen);
 }
 
@@ -117,20 +117,25 @@ size_t Neuron::getTargetSize()
 
 
 
-void Neuron::update_test(double intensity,double t)
+void Neuron::update_test(double intensity, int test_time)
 {
-  if ( is_spiking()) {
-       set_vMemb(0.0);
-       set_time(t);
-  }
-  else if(is_refracting(t)) set_vMemb(0.0);
-
-  else set_vMemb(first_*get_vMemb()+intensity*second_);
+for (size_t i = 0; i < test_time; i++) {
+  set_vMemb(first_*get_vMemb()+intensity*second_);
+}
 
 }
 
 
+bool Neuron::run_test(double intensity,double t) {
 
+  if (!is_refracting(t)) {
+    set_vMemb(first_*get_vMemb()+intensity*second_);
+  }
+  if (is_spiking()) {
+    set_vMemb(0.0);
+    set_time(t);
+  }
+}
 
 
 /*void Neuron::output_vMemb(double i)
