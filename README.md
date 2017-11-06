@@ -21,7 +21,7 @@ Main program  --> ./Neuron
 
 tests --> ./runTests
 
-
+==============================================================================
     HOW THE PROGRAM WORKS:
 
 

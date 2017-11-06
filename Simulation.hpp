@@ -26,14 +26,14 @@ double get_neuronsSize();
 
 /*!
  * @brief gets the number of spikes a specific neuron has had
- * @param the position of the neuron in neurons_
- * @return i The number of spikes a neuron has had
+ * @param i the position of the neuron in neurons_
+ * @return The number of spikes a neuron has had
  */
 double getNeuronsSpikesNumber(double i);
 
 /*!
  * @brief returns the potential of the targeted neuron
- * @param i, the position of the neuron in neurons_
+ * @param i , the position of the neuron in neurons_
  */
 double getNeuron_V(double i);
 
@@ -82,7 +82,7 @@ void initiate_attributes();
 /*!
  * @brief intiates the attributes of the class acoording to a set of predefines values
  *
- * @param stop, iThe time of the simulation in steps, and the external intensity
+ * @param stop, i The time of the simulation in steps, and the external intensity
  */
 void initiate_default(double stop, double i);
 

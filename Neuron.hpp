@@ -37,9 +37,14 @@ double get_time(double i);
  */
 size_t get_spikesSize();
 
-
+/*!
+ * @brief gets the target from the target vector
+ */
 int get_target(int i);
 
+/*!
+ * @brief returns the size of the target vector
+ */
 size_t getTargetSize();
 
 //=======================================================================
@@ -75,6 +80,9 @@ void set_time(double t);
  */
 bool is_spiking();
 
+/*!
+ * @brief returns true if the neuron is refracting, else returns false
+ */
 bool is_refracting(double t);
 //-----------------------------------------------------------------------
 
@@ -112,7 +120,7 @@ double readFromBuffer(double i);
 
 /*!
  * @brief resets the value inside the index i of the ring buffer to 0
- * @parma i The index of the ring buffer to rest
+ * @param i The index of the ring buffer to rest
  */
 void reset_bufferIndex(double i);
 
@@ -135,14 +143,14 @@ double random_noise(double nun);
 /*!
  * @brief a version of the update without the random noise, to be used for google tests
  *
- * @param The intensity of the signal, and the time during which the neuron will be updated
+ * @param  intensity, test_time  intensity of the signal, and the time during which the neuron will be updated
  */
 void update_test(double intensity, int test_time);
 
 /*!
  * @brief A test version for the behavior of the neuron
  *
- * @param the intensity of the signal, the current time
+ * @param intensity, t   the intensity of the signal, the current time
  */
 void run_test(double intensity, double t);
 
