@@ -2,8 +2,12 @@
 
 RUNNING THE PROGRAM
 
+Important: In order to run the program with google tests, goougletest has to be downloaded from
+https://github.com/google/googletest. The folder should be placed next to the build folder and
+the source files.
+
 STEP 1: Build the program from a build folder
--Open a terminal and go to the desired location
+-Open a terminal and go to the desired location, next to the source files
 
 -->mkdir build
 
