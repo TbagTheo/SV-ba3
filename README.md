@@ -2,7 +2,7 @@
 
 RUNNING THE PROGRAM
 
-Important: In order to run the program with google tests, goougletest has to be downloaded from
+Important: In order to run the program with google tests, googletest has to be downloaded from
 https://github.com/google/googletest. The folder should be placed next to the build folder and
 the source files.
 
