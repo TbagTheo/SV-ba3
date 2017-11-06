@@ -130,7 +130,7 @@ size_t Neuron::getTargetSize()
 
 void Neuron::update_test(double intensity, int test_time)
 {
-        for (size_t i = 0; i < test_time; i++) {
+        for (int i = 0; i < test_time; i++) {
                 set_vMemb(first_*get_vMemb()+intensity*second_);
         }
 
