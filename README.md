@@ -56,4 +56,9 @@ contain the time at which at spike occurred and which Neuron among the 12500 has
 used to create a plot of the spiking neurons in function of time. Mind that only the spikes occurring after
 20 ms will be recorded.
 
-A Doxygen page in html and latex is also included for further information about the code.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+   PROCEDURE: Generating the documentation
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+To generate the documentation, open the terminal and go to the build folder, then run the command -->make doc
+This will generate the documentation for the code with doxygen in html and latex with further information about the code.
