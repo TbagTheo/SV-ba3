@@ -174,7 +174,7 @@ double Ne, Ni;                //!< number of exitatory and inhibitory neurons
 double g;                     //!<weight of inhibitory neurons
 double buffer_wIndex;         //!<index of the buffer to write to
 double buffer_rIndex;         //!<index of the buffer to read from
-double nun;
+double nun;                   //!<nuExt/nuThr
 
 std::vector <Neuron*> neurons_; //!<vector of neurons in the simulation
 
